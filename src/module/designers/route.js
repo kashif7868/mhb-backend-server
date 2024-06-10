@@ -13,7 +13,7 @@ router
     validate(validation.createDesigner),
     controller.createDesigner
   )
-  .get(controller.getAllDesigners);
+  .get(controller.getAllDesignersWithWorks);
 
 router
   .route('/:designerId')
@@ -24,6 +24,8 @@ router
     controller.updateDesigner
   )
   .delete(validate(validation.deleteDesigner), controller.deleteDesigner);
+
+  // router.get('/allDesigner', controller.getAllDesigners);
 
 module.exports = {
   designerRoutes: router,

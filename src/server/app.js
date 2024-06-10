@@ -15,6 +15,7 @@ const logRequest = require('../middlewares/logRequest');
 const { errorConverter, errorHandler } = require('../middlewares/error');
 const { authRoutes } = require('../module/users/route');
 const { designerRoutes } = require('../module/designers/route');
+const { workRoutes } = require('../module/work/route');
 const ApiError = require('../utils/ApiError');
 
 const app = express();
@@ -66,6 +67,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/designers', designerRoutes);
+app.use('/api/work', workRoutes);
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'API Not found'));

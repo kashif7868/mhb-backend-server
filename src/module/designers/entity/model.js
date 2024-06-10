@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('../../../utils/plugins');
+const config = require("../../../config/config");
 
 const designerSchema = new mongoose.Schema(
   {
@@ -84,6 +85,17 @@ const designerSchema = new mongoose.Schema(
     },
   },
   {
+    toJSON: {
+      transform(doc, ret) {
+        // ret.id = ret._id;
+        // delete ret._id;
+        // delete ret.__v;
+        // delete ret.updatedAt;
+        if (ret.profilePicture) {
+          ret.profilePicture = config.rootPath + ret.profilePicture;
+        }
+      },
+    },
     timestamps: true,
   }
 );

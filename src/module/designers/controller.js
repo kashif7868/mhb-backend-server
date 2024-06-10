@@ -32,7 +32,7 @@ exports.deleteDesigner = catchAsync(async (req, res) => {
   res.send(deletedDesigner);
 });
 
-exports.getAllDesigners = catchAsync(async (req, res) => {
-  const designers = await designerService.getAllDesigners();
+exports.getAllDesignersWithWorks = catchAsync(async (req, res) => {
+  const designers = await designerService.getAllDesignersWithWorks();
   res.status(httpStatus.OK).json(designers);
 });
