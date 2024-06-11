@@ -18,6 +18,7 @@ const { designerRoutes } = require('../module/designers/route');
 const { hireDesignerRoutes } = require('../module/hireDesigner/route');
 const { workRoutes } = require('../module/work/route');
 const { coverImageRoutes } = require('../module/coverImage/route');
+const { hireRoutes } = require('../module/hire/route');
 const ApiError = require('../utils/ApiError');
 
 const app = express();
@@ -72,6 +73,7 @@ app.use('/api/designers', designerRoutes);
 app.use('/api/work', workRoutes);
 app.use('/api/hire', hireDesignerRoutes);
 app.use('/api/cover', coverImageRoutes);
+app.use('/api/message', hireRoutes);
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {
   next(new ApiError(httpStatus.NOT_FOUND, 'API Not found'));
