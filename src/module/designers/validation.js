@@ -17,13 +17,16 @@ const onTheWebSchema = Joi.object({
 
 const aboutMeSchema = Joi.object({
   sectionTitle: Joi.string().required(),
-  description: Joi.string().required(),
-  companyName: Joi.string().required(),
-  position: Joi.string().required(),
-  startingFrom: Joi.date().required(),
-  endingIn: Joi.date().required(),
-  details: Joi.string().required(),
+  description: Joi.string().required()
 });
+
+const workExperienceSchema = Joi.object({
+  companyName: Joi.string(),
+  position: Joi.string(),
+  startingFrom: Joi.date(),
+  endingIn: Joi.date(),
+  details: Joi.string(),
+})
 
 exports.createDesigner = {
   body: Joi.object().keys({
@@ -32,6 +35,7 @@ exports.createDesigner = {
     basicInformation: basicInformationSchema,
     onTheWeb: onTheWebSchema,
     aboutMe: aboutMeSchema,
+    workExperience: workExperienceSchema
   }),
 };
 
@@ -51,6 +55,7 @@ exports.updateDesigner = {
     basicInformation: basicInformationSchema,
     onTheWeb: onTheWebSchema,
     aboutMe: aboutMeSchema,
+    workExperience: workExperienceSchema
   }),
 };
 

@@ -61,28 +61,25 @@ const designerSchema = new mongoose.Schema(
       description: {
         type: String,
         required: true,
-      },
+      }
+    },
+    workExperience:{
       companyName: {
         type: String,
-        required: true,
       },
       position: {
         type: String,
-        required: true,
       },
       startingFrom: {
         type: Date,
-        required: true,
       },
       endingIn: {
         type: Date,
-        required: true,
       },
       details: {
         type: String,
-        required: true,
-      },
-    },
+      }
+    }
   },
   {
     toJSON: {
