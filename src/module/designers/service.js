@@ -68,8 +68,8 @@ exports.getAllDesignersWithWorks = async () => {
               _id: designer._id,
               profilePicture: designer.profilePicture,
               basicInformation: {
-                  firstName: designer.user.firstName,
-                  lastName: designer.user.lastName,
+                  firstName: designer.basicInformation.firstName,
+                  lastName: designer.basicInformation.lastName,
                   country: designer.basicInformation.country,
                   // Add other basic information fields here
               },

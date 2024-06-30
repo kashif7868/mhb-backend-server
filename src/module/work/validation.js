@@ -5,6 +5,7 @@ exports.createWork = {
     title: Joi.string().required(),
     category: Joi.string().required(),
     designer: Joi.string().required(),
+    image:  Joi.string()
   }),
 };
 
@@ -22,6 +23,7 @@ exports.updateWork = {
     title: Joi.string(),
     category: Joi.string(),
     designer: Joi.string(),
+    image:  Joi.string()
   }),
 };
 
