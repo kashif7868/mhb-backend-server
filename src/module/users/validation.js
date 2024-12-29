@@ -1,13 +1,21 @@
-const Joi = require('joi');
-const { password, objectId } = require('../../utils/custom.validation');
+const Joi = require("joi");
+const { password, objectId } = require("../../utils/custom.validation");
 
 const register = {
   body: Joi.object().keys({
-    firstName: Joi.string().required(),
-    lastName: Joi.string().required(),
-    email: Joi.string().required(),
-    password: Joi.string().required(),
-    userName: Joi.string().required(),
+    fullName: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string()
+      .required()
+      .min(8)
+      .pattern(/[a-zA-Z]/)
+      .pattern(/\d/),
+    confirmPassword: Joi.string()
+      .valid(Joi.ref("password"))
+      .required()
+      .messages({
+        "any.only": "Password and confirm password must match",
+      }),
   }),
 };
 
@@ -42,12 +50,9 @@ const updateUser = {
     userId: Joi.required().custom(objectId),
   }),
   body: Joi.object().keys({
+    fullName: Joi.string().required(),
     email: Joi.string().email(),
-    password: Joi.string().custom(password),
-    firstName: Joi.string(),
-    lastName: Joi.string(),
-    role: Joi.string(),
-    userName: Joi.string(),
+    photoPath: Joi.string().optional(),
   }),
 };
 

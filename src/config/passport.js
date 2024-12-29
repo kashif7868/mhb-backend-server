@@ -17,11 +17,7 @@ const jwtVerify = async (payload, done) => {
     if (user) {
       return done(null, user);
     }
-    // if have multiple table for system user
-    // const admin = await Admin.findById(payload.sub)
-    // if(admin){
-    //   return done(admin, admin)
-    // }
+ 
     done(null, false);
   } catch (error) {
     done(error, false);

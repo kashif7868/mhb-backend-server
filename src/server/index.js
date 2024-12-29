@@ -1,41 +1,34 @@
 const mongoose = require('mongoose');
-const http2 = require('http2');
-const fs = require('fs');
 const app = require('./app');
 const config = require('../config/config');
 const logger = require('../config/logger');
 
-
-let server;
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
-  });
-});
-
-const exitHandler = () => {
-  if (server) {
-    server.close(() => {
-      logger.info('Server closed');
-      process.exit(1);
+// Connect to MongoDB
+mongoose.connect(config.mongoose.url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    logger.info('Successfully connected to MongoDB');
+    const server = app.listen(config.port, () => {
+      logger.info(`Server is running on port ${config.port}`);
     });
-  } else {
-    process.exit(1);
-  }
-};
+  })
+  .catch((error) => {
+    logger.error(`Error connecting to MongoDB: ${error.message}`);
+    process.exit(1);  // Exit the process on failure
+  });
 
-const unexpectedErrorHandler = (error) => {
-  logger.error(error);
-  exitHandler();
-};
 
-process.on('uncaughtException', unexpectedErrorHandler);
-process.on('unhandledRejection', unexpectedErrorHandler);
-
+// Graceful shutdown
 process.on('SIGTERM', () => {
   logger.info('SIGTERM received');
-  if (server) {
-    server.close();
+  if (mongoose.connection.readyState === 1) {
+    mongoose.connection.close(() => {
+      logger.info('MongoDB connection closed');
+      process.exit(0);
+    });
+  } else {
+    process.exit(0);
   }
 });

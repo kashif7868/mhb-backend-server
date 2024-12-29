@@ -5,12 +5,7 @@ const { toJSON, paginate } = require('../../../utils/plugins');
 
 const userSchema = mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    lastName: {
+    fullName: {
       type: String,
       required: true,
       trim: true,
@@ -41,14 +36,19 @@ const userSchema = mongoose.Schema(
       },
       private: true, // used by the toJSON plugin
     },
+    confirmPassword: {
+      type: String,
+      required: true,
+      validate(value) {
+        if (value !== this.password) {
+          throw new Error('Password and confirm password must match');
+        }
+      },
+      private: true, // used by the toJSON plugin
+    },
     role: {
       type: String,
       default: 'user',
-    },
-    userName: {
-      type: String,
-      required: true,
-      trim: true,
     },
     photoPath: {
       type: String,
