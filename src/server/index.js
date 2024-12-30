@@ -3,13 +3,19 @@ const app = require('./app');
 const config = require('../config/config');
 const logger = require('../config/logger');
 
-// Connect to MongoDB
-mongoose.connect(config.mongoose.url, {
+// Load environment variables
+require('dotenv').config();
+
+// MongoDB connection URL from .env file
+const mongodbUrl = process.env.MONGODB_URL;
+
+// Connect to MongoDB Atlas
+mongoose.connect(mongodbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
   .then(() => {
-    logger.info('Successfully connected to MongoDB');
+    logger.info('Successfully connected to MongoDB Atlas');
     const server = app.listen(config.port, () => {
       logger.info(`Server is running on port ${config.port}`);
     });
@@ -18,7 +24,6 @@ mongoose.connect(config.mongoose.url, {
     logger.error(`Error connecting to MongoDB: ${error.message}`);
     process.exit(1);  // Exit the process on failure
   });
-
 
 // Graceful shutdown
 process.on('SIGTERM', () => {

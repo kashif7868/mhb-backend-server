@@ -53,6 +53,17 @@ const updateUser = {
     fullName: Joi.string().required(),
     email: Joi.string().email(),
     photoPath: Joi.string().optional(),
+    password: Joi.string()
+      .min(8)
+      .pattern(/[a-zA-Z]/)
+      .pattern(/\d/)
+      .optional(), // Password is optional, as the user may not want to change it
+    confirmPassword: Joi.string()
+      .valid(Joi.ref("password"))
+      .optional()
+      .messages({
+        "any.only": "Password and confirm password must match",
+      }),
   }),
 };
 
