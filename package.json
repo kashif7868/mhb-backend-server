@@ -46,7 +46,7 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
-    "husky": "^9.1.7",
+    "husky": "^4.3.8",
     "nodemon": "^2.0.0"
   }
 }
