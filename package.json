@@ -12,8 +12,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check **/*.js",
-    "prettier:fix": "prettier --write **/*.js",
-    "prepare": "husky install"
+    "prettier:fix": "prettier --write **/*.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -46,7 +45,6 @@
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
-    "husky": "^4.3.8",
     "nodemon": "^2.0.0"
   }
 }
