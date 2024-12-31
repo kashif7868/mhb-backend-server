@@ -7,7 +7,7 @@ const logger = require('../config/logger');
 require('dotenv').config();
 
 // MongoDB connection URL directly in the code
-const mongodbUrl = 'mongodb+srv://mhbstore20:Mhbstore786@cluster0.cbcvk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongodbUrl = process.env.MONGODB_URL;
 
 // Connect to MongoDB Atlas
 mongoose.connect(mongodbUrl, {
