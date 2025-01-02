@@ -1,8 +1,8 @@
-const httpStatus = require('http-status');
-const catchAsync = require('../../utils/catchAsync');
-const userService = require('./service');
-const tokenService = require('../tokens/service');
-const pick = require('../../utils/pick');
+const httpStatus = require("http-status");
+const catchAsync = require("../../utils/catchAsync");
+const userService = require("./service");
+const tokenService = require("../tokens/service");
+const pick = require("../../utils/pick");
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.register(req.body);
@@ -24,7 +24,7 @@ const logout = catchAsync(async (req, res) => {
 
 const queryUsers = catchAsync(async (req, res) => {
   const filter = pick(req.query, []);
-  const options = pick(req.query, ['page', 'limit']);
+  const options = pick(req.query, ["page", "limit"]);
   const result = await userService.queryUsers(filter, options);
   res.send(result);
 });
@@ -38,6 +38,12 @@ const getUser = catchAsync(async (req, res) => {
 const updateUser = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { body } = req;
+
+  // Check if a file is uploaded and define the file path using path.join
+  if (req.file) {
+    body.image = path.join("uploads", req.file.filename); // Save the file path in the request body
+  }
+
   const result = await userService.updateUser(id, body);
   res.send(result);
 });
@@ -57,7 +63,7 @@ const refreshTokens = catchAsync(async (req, res) => {
 const forgotPassword = catchAsync(async (req, res) => {
   const user = await User.find({ email: req.body.email });
   if (user.length === 0) {
-    res.json({ msg: 'Invalid Email Address' });
+    res.json({ msg: "Invalid Email Address" });
   } else {
     // const resetPasswordToken = await tokenService.generateResetPasswordToken(req.body.email);
     const result = await emailService.sendResetPasswordEmail(req.body.email);
