@@ -225,7 +225,7 @@ const generateOrderConfirmationHTML = (order) => {
               <td>
                 <img src="${
                   item.images && item.images.length > 0
-                    ? `https://www.mhbstore.com/${item.images[0]}`
+                    ? `https://mhb-backend-server-emed.onrender.com/${item.images[0]}`
                     : "default_image_url"
                 }"
                 alt="${item.productName}" /> ${item.productName}
@@ -252,9 +252,9 @@ const generateOrderConfirmationHTML = (order) => {
 
       <div class="button-container">
         <a
-          href="https://www.mhbstore.com/order/${order.orderId}"
+          href="https://mhb-backend-server-emed.onrender.com/api/order/${order.orderId}"
           class="confirmation-button"
-          >Confirm Your Order</a
+          >Confirm Your Order</a>
         >
       </div>
 
