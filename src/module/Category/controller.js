@@ -1,4 +1,5 @@
 // controllers/categoryController.js
+const path = require('path'); // Import path module
 const catchAsync = require('../../utils/catchAsync');
 const categoryService = require('./service');
 
@@ -9,7 +10,8 @@ const createCategory = catchAsync(async (req, res) => {
   delete categoryData._id;
 
   if (req.file) {
-    categoryData.image = req.file.path; // If file is uploaded, add the path to category data
+    // Construct file path using path.join
+    categoryData.image = path.join('uploads', req.file.filename); 
   }
 
   const newCategory = await categoryService.createCategory(categoryData);
@@ -25,7 +27,8 @@ const updateCategory = catchAsync(async (req, res) => {
   
   // Check if image file is uploaded and update
   if (req.file) {
-    categoryData.image = req.file.path;
+    // Construct file path using path.join
+    categoryData.image = path.join('uploads', req.file.filename);
   }
   
   // Ensure the category status is updated accordingly
