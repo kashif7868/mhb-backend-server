@@ -1,15 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const validate = require('../../middlewares/validate');
-const controller = require('./controller');
-const { validateUpdate } = require('./validation');
+const validate = require('../../middlewares/validate');  // Assuming you have a validate middleware
+const controller = require('./controller');  // Your controller
+const { validateUpdate } = require('./validation');  // Validation method for updating report
 
 // Get all reports
-router.get('/', controller.getAllReports);
+router.get('/', controller.getReports);
 
-// Update a report using PATCH
-router.patch('/:reportId', validateUpdate, controller.updateReport);
+// Update a report (validate the incoming data before passing to controller)
+router.post('/', validate(validateUpdate), controller.updateReport);
 
 module.exports = {
-  reportRoutes: router, // Export the router object for use elsewhere
+  reportRoutes: router,  // Export the router object for use elsewhere
 };

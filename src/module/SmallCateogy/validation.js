@@ -1,17 +1,17 @@
 const Joi = require('joi');
 
-// Validation for creating SmallCategory
 exports.createSmallCategoryValidation = {
   body: Joi.object({
+    categoryName: Joi.string().required(),
     sub_categoryName: Joi.string().required(),
-    small_categoryNames: Joi.array().items(Joi.string()).default([]),
+    small_categoryNames: Joi.string().required(),
   }),
 };
 
-// Validation for updating SmallCategory
 exports.updateSmallCategoryValidation = {
   body: Joi.object({
+    categoryName: Joi.string(),
     sub_categoryName: Joi.string(),
-    small_categoryNames: Joi.array().items(Joi.string()),
+    small_categoryNames: Joi.string(),
   }),
 };

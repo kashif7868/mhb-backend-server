@@ -6,7 +6,7 @@ const compression = require("compression");
 const cors = require("cors");
 const passport = require("passport");
 const httpStatus = require("http-status");
-// const path = require('path');
+// const path = require('path'); // You can remove this import if it's no longer needed.
 const config = require("../config/config");
 const morgan = require("../config/morgan");
 const { jwtStrategy } = require("../config/passport");
@@ -17,24 +17,21 @@ const { authRoutes } = require("../module/users/route");
 const { categoryRoutes } = require("../module/Category/route");
 const { subCategoryRoutes } = require("../module/SubCategory/route");
 const { smallCategoryRoutes } = require("../module/SmallCateogy/route");
-const { productsRoutes } = require("../module/Product/route"); // Add product routes here
+const { productsRoutes } = require("../module/Product/route");
 const { adsCenterRoutes } = require("../module/AdsCenter/route");
 const { certificateRoutes } = require("../module/Certificate/route");
 const { homeSliderRoutes } = require("../module/HomeSlider/route");
 const { notificationRoutes } = require("../module/Notification/route");
 const { partnershipRoutes } = require("../module/Partnership/route");
-
-// Import peerals routes
-const { peeralsRoutes } = require("../module/Peerals/route"); // Add peerals route import here
-
-// Import checkout routes
+const { peeralsRoutes } = require("../module/Peerals/route");
 const { checkoutRoutes } = require("../module/Checkout/route");
-const { reportRoutes } = require("../module/Report/route"); // Add report routes here
+const { reportRoutes } = require("../module/Report/route");
+const { cartRoutes } = require('../module/Cart/route');
 const ApiError = require("../utils/ApiError");
 
 const app = express();
 
-if (config.env !== "test") {
+if (config.env !== "Mhbstore") {
   app.use(morgan.successHandler);
   app.use(morgan.errorHandler);
 }
@@ -66,9 +63,8 @@ if (config.env === "production") {
   app.use("/api/auth", authLimiter);
 }
 
-// use public folder to serve files
-// app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static("public"));
+// use src/uploads folder to serve files (updated here)
+app.use(express.static("src/uploads/")); // Change from 'public' to 'src/uploads'
 
 app.use(logRequest);
 
@@ -105,6 +101,8 @@ app.use("/api/partners", partnershipRoutes);
 
 // Peerals Routes
 app.use("/api/peerals", peeralsRoutes); // Add peerals routes
+
+app.use('/api/cart', cartRoutes);
 
 // Checkout Routes
 app.use("/api/orders", checkoutRoutes);

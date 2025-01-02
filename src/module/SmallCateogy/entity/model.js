@@ -3,13 +3,17 @@ const mongoose = require("mongoose");
 
 const smallCategorySchema = new mongoose.Schema(
   {
+    categoryName: {
+      type: String, // Category name
+      required: true,
+    },
     sub_categoryName: {
       type: String, // Single sub-category name
       required: true,
     },
     small_categoryNames: {
-      type: [String], // Array to hold multiple small category names
-      default: [],
+      type: String, 
+      required: true
     },
   },
   {

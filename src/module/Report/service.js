@@ -1,41 +1,41 @@
-const Report = require('./model');  // Import the Report model
+const Report = require("./model"); 
 
-// Get all reports
-const getAllReports = async () => {
+// Service function to fetch all reports
+exports.getReports = async () => {
   try {
-    return await Report.find();
-  } catch (err) {
-    throw new Error('Error fetching reports from database');
+    // Fetch all reports from the database
+    const reports = await Report.find();
+    return reports;  // Returning the fetched reports
+  } catch (error) {
+    throw new Error("Error fetching reports");
   }
 };
 
-// Update a report
-const updateReport = async (reportId, updatedData) => {
+// Service function to update or create a report
+exports.updateReportData = async (reportData) => {
   try {
-    const report = await Report.findById(reportId);
+    // Checking if a report already exists for the provided userId
+    let report = await Report.findOne({ userId: reportData.userId });
+
+    // If report does not exist, create a new one
     if (!report) {
-      return null;  // Report not found
+      report = new Report(reportData);  // Creating a new report instance
+    } else {
+      // If report exists, update the data
+      report.updateTotalOrders(reportData.totalOrders);
+      report.updateSales(reportData.sales);
+      report.updateOrders(reportData.orders);
+      report.updateUsersAndIncome(reportData.totalUsers, reportData.overallIncome);
+      report.updateProductStats(reportData.totalProductsSold, reportData.totalCategories);
+      report.updateDiscountsApplied(reportData.discountsApplied);
     }
 
-    // Update the fields
-    report.totalOrders = updatedData.totalOrders || report.totalOrders;
-    report.totalCompletedOrders = updatedData.totalCompletedOrders || report.totalCompletedOrders;
-    report.totalPendingOrders = updatedData.totalPendingOrders || report.totalPendingOrders;
-    report.sales = updatedData.sales || report.sales;
-    report.orders = updatedData.orders || report.orders;
-    report.totalUsers = updatedData.totalUsers || report.totalUsers;
-    report.overallIncome = updatedData.overallIncome || report.overallIncome;
-    report.targetGoal = updatedData.targetGoal || report.targetGoal;
-    report.progressToGoal = updatedData.progressToGoal || report.progressToGoal;
-
+    // Saving the updated or new report to the database
     await report.save();
-    return report;
-  } catch (err) {
-    throw new Error('Error updating report');
+    return report;  // Returning the saved report
+  } catch (error) {
+    throw new Error("Error updating or creating report");
   }
 };
 
-module.exports = {
-  getAllReports,
-  updateReport,
-};
+// You can add more service functions to handle other operations

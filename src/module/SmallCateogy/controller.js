@@ -4,9 +4,10 @@ const SmallCategoryService = require('./service');
 exports.createSmallCategory = async (req, res) => {
   try {
     const smallCategory = await SmallCategoryService.createSmallCategory(req.body);
-    res.status(201).json(smallCategory);
+    res.status(201).json(smallCategory); // Created successfully
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error); // Log error details for debugging
+    res.status(500).json({ error: error.message }); // Internal server error
   }
 };
 
@@ -14,9 +15,10 @@ exports.createSmallCategory = async (req, res) => {
 exports.getSmallCategories = async (req, res) => {
   try {
     const smallCategories = await SmallCategoryService.getSmallCategories();
-    res.status(200).json(smallCategories);
+    res.status(200).json(smallCategories); // Success response
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error); // Log error details for debugging
+    res.status(500).json({ error: error.message }); // Internal server error
   }
 };
 
@@ -24,10 +26,13 @@ exports.getSmallCategories = async (req, res) => {
 exports.getSmallCategoryById = async (req, res) => {
   try {
     const smallCategory = await SmallCategoryService.getSmallCategoryById(req.params.id);
-    if (!smallCategory) return res.status(404).json({ error: 'SmallCategory not found' });
-    res.status(200).json(smallCategory);
+    if (!smallCategory) {
+      return res.status(404).json({ error: 'SmallCategory not found' }); // Not found error
+    }
+    res.status(200).json(smallCategory); // Success response
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error); // Log error details for debugging
+    res.status(500).json({ error: error.message }); // Internal server error
   }
 };
 
@@ -35,10 +40,13 @@ exports.getSmallCategoryById = async (req, res) => {
 exports.updateSmallCategory = async (req, res) => {
   try {
     const smallCategory = await SmallCategoryService.updateSmallCategory(req.params.id, req.body);
-    if (!smallCategory) return res.status(404).json({ error: 'SmallCategory not found' });
-    res.status(200).json(smallCategory);
+    if (!smallCategory) {
+      return res.status(404).json({ error: 'SmallCategory not found' }); // Not found error
+    }
+    res.status(200).json(smallCategory); // Success response
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error); // Log error details for debugging
+    res.status(500).json({ error: error.message }); // Internal server error
   }
 };
 
@@ -46,9 +54,12 @@ exports.updateSmallCategory = async (req, res) => {
 exports.deleteSmallCategory = async (req, res) => {
   try {
     const deleted = await SmallCategoryService.deleteSmallCategory(req.params.id);
-    if (!deleted) return res.status(404).json({ error: 'SmallCategory not found' });
-    res.status(200).json({ message: 'SmallCategory deleted successfully' });
+    if (!deleted) {
+      return res.status(404).json({ error: 'SmallCategory not found' }); // Not found error
+    }
+    res.status(200).json({ message: 'SmallCategory deleted successfully' }); // Success response
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error); // Log error details for debugging
+    res.status(500).json({ error: error.message }); // Internal server error
   }
 };

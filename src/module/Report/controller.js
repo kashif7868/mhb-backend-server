@@ -1,30 +1,27 @@
-const reportService = require('./service');
+const reportService = require("./service");  // Importing the service
+const validateReportData = require("./validation");  // Validation
 
-const getAllReports = async (req, res) => {
+// Method to get all reports
+exports.getReports = async (req, res) => {
   try {
-    const reports = await reportService.getAllReports();
+    const reports = await reportService.getReports();  // Fetching reports from the service
     res.status(200).json(reports);
-  } catch (err) {
-    res.status(500).json({ message: 'Error fetching reports', error: err });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching reports", error: error.message });
   }
 };
 
-const updateReport = async (req, res) => {
-  const { reportId } = req.params;
-  const updatedData = req.body;
-
+// Method to update or create a report
+exports.updateReport = async (req, res) => {
   try {
-    const updatedReport = await reportService.updateReport(reportId, updatedData);
-    if (!updatedReport) {
-      return res.status(404).json({ message: 'Report not found' });
-    }
-    res.status(200).json(updatedReport);
-  } catch (err) {
-    res.status(500).json({ message: 'Error updating report', error: err });
-  }
-};
+    // Validate input data
+    validateReportData(req.body);  // Validating the incoming request body
 
-module.exports = {
-  getAllReports,
-  updateReport,
+    const reportData = req.body;  // Incoming data for the report
+    const updatedReport = await reportService.updateReportData(reportData);  // Calling the service to update the report
+
+    res.status(200).json(updatedReport);  // Returning the updated report
+  } catch (error) {
+    res.status(400).json({ message: error.message });  // Handling validation or other errors
+  }
 };

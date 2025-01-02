@@ -1,22 +1,15 @@
-const Joi = require('joi');
+const { body } = require('express-validator');
 
-const addItemValidation = Joi.object({
-  productId: Joi.string().required(),
-  qty: Joi.number().min(1).required(),
-  selectedColor: Joi.string(),
-  selectedSize: Joi.string(),
-  selectedMeter: Joi.number(),
-});
+// Validate adding an item to the cart
+exports.addItemValidation = [
+  body('productId').notEmpty().withMessage('Product ID is required'),
+  body('qty').isInt({ min: 1 }).withMessage('Quantity must be at least 1'),
+  body('userId').notEmpty().withMessage('User ID is required'),
+];
 
-const updateItemValidation = Joi.object({
-  productId: Joi.string().required(),
-  qty: Joi.number().min(1),
-  selectedColor: Joi.string(),
-  selectedSize: Joi.string(),
-  selectedMeter: Joi.number(),
-});
-
-module.exports = {
-  addItemValidation,
-  updateItemValidation,
-};
+// Validate updating item quantity
+exports.updateItemValidation = [
+  body('productId').notEmpty().withMessage('Product ID is required'),
+  body('qty').isInt({ min: 1 }).withMessage('Quantity must be at least 1'),
+  body('userId').notEmpty().withMessage('User ID is required'),
+];
